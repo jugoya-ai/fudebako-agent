@@ -2,6 +2,8 @@
 
 [fudebako](https://github.com/jugoya-ai/fudebako) 向けの AI コーディングエージェントプラグイン。OpenRouter 経由でマルチプロバイダのチャットと、ブラウザ内 Python 実行 (Pyodide) / `/drive/` 仮想ファイルシステムを組み合わせたツール利用ループを提供します。単一 HTML ファイルで完結します。
 
+![fudebako-agent のスクリーンショット](docs/screenshot.png)
+
 ## 重要 — データ送信および AI 出力に関する免責
 
 > **エージェント有効化中はブラウザから外部へデータが送信されます。** 素の fudebako と異なり、本プラグインを利用するとプロンプトおよびエージェントが参照したツール出力 (`/drive/` 配下のファイル内容を含む) が OpenRouter (https://openrouter.ai) と、利用者が選択した上流プロバイダ (Anthropic / OpenAI / Google 等) に HTTPS で送信されます。これは「データはクライアントから出さない」という fudebako の方針に対する、**意図的な例外**です。
