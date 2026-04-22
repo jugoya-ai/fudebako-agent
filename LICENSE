@@ -1,0 +1,216 @@
+IMPORTANT NOTICE: The authoritative terms governing the distribution and
+use of fudebako-agent are written in Japanese and published at TERMS.md
+in this repository. The English text below is a reference translation
+provided for the convenience of non-Japanese-speaking readers. In the
+event of any conflict between the two versions, the Japanese version
+(TERMS.md) shall prevail.
+
+---
+
+Copyright © 2026 yonaka15. All rights reserved.
+
+0. Important — Pre-Use Acknowledgments
+
+   fudebako-agent operates as a deliberate exception to the host
+   fudebako project's "data does not leave the client" policy. By using
+   this software, you acknowledge and agree to the following:
+
+   (a) Information you submit to the agent — including your prompts and
+       any file contents the agent reads via its tools (such as files
+       under /drive/) — is transmitted over HTTPS to the endpoint you
+       configure (by default OpenRouter at https://openrouter.ai) and
+       to the upstream model provider you select (Anthropic, OpenAI,
+       Google, etc.).
+
+   (b) The terms of service, privacy policies, data retention policies,
+       billing, AND THE POSSIBILITY THAT TRANSMITTED DATA MAY BE USED BY
+       THE RESPECTIVE SERVICE PROVIDER FOR MODEL TRAINING OR OTHER
+       PURPOSES, apply directly between you and the respective service
+       provider. The Author does not relay, resell, act as agent for, or
+       warrant any such service.
+
+   (c) API keys such as OPENROUTER_API_KEY are stored by you in
+       browser-local storage (/drive/) and are not included in the
+       distribution. Acquisition, safekeeping, revocation, and response
+       to misuse of the keys are your responsibility.
+
+   (d) When you carry out conversations with the agent, the conversation
+       history — including prompts, AI responses, and tool inputs and
+       outputs — is persisted to your browser-local storage at
+       /drive/.fudebako-agent/history/. You acknowledge the risk of
+       third-party exposure of this history in shared-browser
+       environments or in the event of device loss. You can delete the
+       history at any time via the session-list UI.
+
+   (e) You are responsible for complying with the terms of service of
+       the third-party services described in Section 3.2 (OpenRouter
+       and the upstream model provider you select). This includes the
+       age requirements set by those services and the export-control
+       laws applicable to your location and to the destination of your
+       requests (including, without limitation, U.S. EAR and Japan's
+       Foreign Exchange and Foreign Trade Act).
+
+1. License Grant
+
+   Subject to your compliance with these terms, the Author grants you a
+   non-exclusive, non-transferable, royalty-free license to use
+   fudebako-agent for your own purposes, including internal business
+   use. No rights other than those expressly granted herein are
+   conveyed to you.
+
+2. Restrictions
+
+   You may not:
+
+   (a) reverse engineer, decompile, disassemble, or duplicate
+       fudebako-agent, except to the extent such activity is expressly
+       permitted by applicable law;
+
+   (b) sell, sublicense, rent, lease, or otherwise commercially
+       redistribute fudebako-agent, or use fudebako-agent to build a
+       competing product or service, except as expressly approved in
+       writing by the Author;
+
+   (c) remove, alter, or obscure any copyright, trademark, or other
+       proprietary notices contained in fudebako-agent.
+
+3. Third-Party Components and Third-Party Services
+
+   3.1 Third-Party Components.
+
+       fudebako-agent is distributed as part of the host fudebako
+       standalone HTML artifact. The distributed HTML includes
+       third-party software components bundled by fudebako (Pyodide,
+       Tailwind CSS, the Noto fonts, and others), each of which is
+       licensed to you separately under its own terms. See
+       docs/THIRD_PARTY_LICENSES.md and the NOTICES.txt accompanying
+       each release for the complete list and applicable license texts.
+       Nothing in these terms supersedes those third-party licenses.
+
+   3.2 Third-Party Services.
+
+       fudebako-agent issues HTTPS requests to external services
+       operated by third parties (OpenRouter and the upstream model
+       provider you select) on the basis of your interaction with the
+       agent. The code of those services is not bundled with
+       fudebako-agent; their availability, response quality, pricing,
+       and data handling are governed entirely by the respective
+       service providers. The Author has no contractual relationship
+       with these services and is not responsible for the acts or
+       omissions of any service provider.
+
+       For users located in the European Economic Area (EEA), data
+       transmissions to these third-party services may be subject to
+       the GDPR and other applicable data-protection laws. Exercise of
+       data-subject rights (access, rectification, erasure, restriction
+       of processing, etc.) should be directed to the respective
+       service providers. Because the Author does not process user data
+       (see Section 6), the Author does not act as a data controller or
+       processor for these transmissions.
+
+4. No Warranty
+
+   FUDEBAKO-AGENT IS PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT
+   WARRANTY OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY. TO
+   THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE AUTHOR
+   EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING WARRANTIES
+   OF MERCHANTABILITY, NON-INFRINGEMENT, AND FITNESS FOR A PARTICULAR
+   PURPOSE. THE AUTHOR DOES NOT WARRANT THAT FUDEBAKO-AGENT WILL MEET
+   YOUR REQUIREMENTS, OPERATE WITHOUT INTERRUPTION, OR BE ERROR-FREE.
+
+   In addition, you expressly acknowledge:
+
+   (a) AI Output Accuracy. Responses produced by fudebako-agent are
+       generated by a large language model. They may contain factual
+       errors, hallucinations (plausible-sounding but incorrect
+       content), or inappropriate or harmful output. The Author makes
+       no warranty as to the accuracy, currency, lawfulness, or
+       fitness for any particular purpose of such output. Reliance on
+       AI output for material decisions is your responsibility.
+
+   (b) Tool-Execution Side Effects and Prompt Injection. Based on
+       the model's judgment, fudebako-agent invokes tools including
+       Python code execution (run_python) and read/write operations
+       against browser-local storage (read_drive, write_drive,
+       list_drive). While these executions take place within the
+       Pyodide sandbox and the browser's storage boundary, you should
+       be specifically aware of:
+
+       - Network communication. Python code executed inside Pyodide
+         can issue arbitrary HTTP/HTTPS requests via the browser's
+         fetch API or equivalent. The term "sandbox" here refers to
+         isolation of the code-execution environment; it does NOT
+         block outbound network communication.
+
+       - Storage side effects. Modification or deletion of data under
+         your /drive/ may occur.
+
+       - Prompt injection. If file contents read by the agent (via
+         read_drive or similar) or external resources fetched by the
+         agent contain text that the model interprets as instructions,
+         tool calls you did not intend — including arbitrary Python
+         execution and exfiltration of /drive/ contents — may be
+         induced.
+
+       You are responsible for verifying the results and side effects
+       of tool execution. The Author recommends exercising particular
+       caution when allowing the agent to read files or external
+       resources from untrusted sources, and not placing
+       sensitive-handling material (private keys, credentials,
+       personally identifiable information) under /drive/.
+
+   (c) Scheduled Execution. The scheduling feature re-runs the agent
+       in the same browser UI at times you specify. Execution is
+       limited to periods when the browser tab is open, but
+       unintended tool calls and external-API charges may occur at
+       times you did not actively initiate.
+
+5. Limitation of Liability
+
+   TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT
+   SHALL THE AUTHOR BE LIABLE FOR ANY CONSEQUENTIAL, INCIDENTAL,
+   SPECIAL, INDIRECT, EXEMPLARY, OR PUNITIVE DAMAGES, OR FOR ANY
+   LOSS OF PROFITS, REVENUE, DATA, API USAGE FEES, THIRD-PARTY
+   SERVICE FEES, OR USE, ARISING OUT OF OR RELATED TO YOUR USE OF
+   FUDEBAKO-AGENT, REGARDLESS OF THE CAUSE OF ACTION AND EVEN IF
+   THE AUTHOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+   Notwithstanding the foregoing, nothing in these terms limits or
+   excludes the Author's liability for damages caused by the Author's
+   willful misconduct or gross negligence to the extent such limitation
+   or exclusion is not permitted by applicable law.
+
+6. Absence of Telemetry
+
+   The Author does not collect prompts, responses, tool inputs or
+   outputs, API keys, or any other usage information from users of
+   fudebako-agent. The software runs entirely within the user's
+   browser. However, as set out in Sections 0 and 3.2, content
+   transmitted to external services as a result of your interaction
+   with the agent is subject to the logging and telemetry policies
+   of those service providers.
+
+7. Termination
+
+   These terms automatically terminate upon any breach by you of the
+   restrictions in Section 2. Upon termination, you must cease all
+   use of fudebako-agent and destroy all copies in your possession
+   or control.
+
+8. Governing Law
+
+   These terms are governed by the laws of Japan, without regard to
+   its conflict of laws principles. Any disputes arising out of or
+   related to these terms shall be resolved in the competent courts
+   of Japan.
+
+9. Severability
+
+   If any provision of these terms is held unenforceable, the
+   remaining provisions shall remain in full force and effect.
+
+---
+
+The Japanese version of these terms, published at TERMS.md, is the
+authoritative text. This English version is provided for reference
+only.
