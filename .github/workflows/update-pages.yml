@@ -34,21 +34,40 @@ jobs:
           fi
 
       - name: Download agent asset from release
+        # Two SKUs are attached at release-create time:
+        #   fudebako-agent-pages-vX.Y.Z.html  — lite, must stay <100 MB (git
+        #                                       push hook hard-rejects above)
+        #   fudebako-agent-vX.Y.Z.html        — full --standard SKU, ~113 MB
+        # Prefer the lite (-pages-) SKU; only fall back to the full one if a
+        # release omitted the lite asset (early-v0.3.x releases, or a future
+        # release that fits under 100 MB without the lite split).
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.tag.outputs.value }}
         run: |
           mkdir -p /tmp/agent
+          # Try lite first; `|| true` because gh exits non-zero if pattern
+          # matches no assets, and we want the fallback to run.
           gh release download "$TAG" \
-            --pattern 'fudebako-agent-*.html' \
-            --dir /tmp/agent
-          downloaded=$(ls /tmp/agent/fudebako-agent-*.html 2>/dev/null | head -1)
+            --pattern 'fudebako-agent-pages-*.html' \
+            --dir /tmp/agent || true
+          downloaded=$(ls /tmp/agent/fudebako-agent-pages-*.html 2>/dev/null | head -1)
+          if [ -z "$downloaded" ]; then
+            gh release download "$TAG" \
+              --pattern 'fudebako-agent-*.html' \
+              --dir /tmp/agent
+            # Exclude any lite assets that might have been mid-uploaded
+            # between the two download calls (paranoia; ordering should keep
+            # this branch empty when the lite asset exists).
+            downloaded=$(ls /tmp/agent/fudebako-agent-*.html 2>/dev/null \
+              | grep -v 'fudebako-agent-pages-' | head -1)
+          fi
           if [ -z "$downloaded" ]; then
             echo "::error::No fudebako-agent-*.html asset found in release $TAG"
             exit 1
           fi
           mv "$downloaded" docs/index.html
-          echo "Wrote $(stat -c%s docs/index.html) bytes to docs/index.html"
+          echo "Wrote $(stat -c%s docs/index.html) bytes to docs/index.html (source: $(basename "$downloaded"))"
 
       - name: Commit and push if changed
         env:
